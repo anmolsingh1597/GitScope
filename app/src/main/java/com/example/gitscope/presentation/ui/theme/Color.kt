@@ -1,4 +1,4 @@
-package com.example.gitscope.ui.theme
+package com.example.gitscope.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
