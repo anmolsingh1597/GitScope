@@ -1,5 +1,6 @@
 package com.example.gitscope.data.repository
 
+import com.example.gitscope.data.di.modules.IoDispatcher
 import com.example.gitscope.data.model.Repository
 import com.example.gitscope.data.model.User
 import com.example.gitscope.data.remote.interfaces.ApiInterface
@@ -18,7 +19,7 @@ import java.net.UnknownHostException
 @Singleton
 class GitHubScopeRepositoryImpl @Inject constructor(
     private val apiInterface: ApiInterface,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : GitHubScopeRepository {
     override suspend fun getUser(userId: String): Result<User> = withContext(ioDispatcher) {
         try {

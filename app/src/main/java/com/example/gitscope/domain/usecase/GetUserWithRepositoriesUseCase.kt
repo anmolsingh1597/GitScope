@@ -1,5 +1,6 @@
 package com.example.gitscope.domain.usecase
 
+import com.example.gitscope.data.di.modules.DefaultDispatcher
 import com.example.gitscope.domain.model.UserWithRepositories
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +15,7 @@ class GetUserWithRepositoriesUseCase @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
     private val getUserRepositoriesUseCase: GetUserRepositoryUseCase,
     private val calculateTotalForkUseCase: CalculateTotalForkUseCase,
-    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) {
 
     suspend operator fun invoke(userId: String): Result<UserWithRepositories> = withContext(defaultDispatcher) {
@@ -23,7 +24,6 @@ class GetUserWithRepositoriesUseCase @Inject constructor(
         }
 
         try {
-            // Run both API calls concurrently
             val userDeferred = async { getUserUseCase(userId) }
             val reposDeferred = async { getUserRepositoriesUseCase(userId) }
 

@@ -1,5 +1,6 @@
 package com.example.gitscope.domain.usecase
 
+import com.example.gitscope.data.di.modules.IoDispatcher
 import com.example.gitscope.data.model.User
 import com.example.gitscope.data.repository.GitHubScopeRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.flowOn
 
 class GetUserUseCase @Inject constructor(
     private val repository: GitHubScopeRepository,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
     suspend operator fun invoke(userId: String): Result<User> {
