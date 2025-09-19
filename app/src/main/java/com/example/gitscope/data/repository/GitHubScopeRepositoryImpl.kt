@@ -79,8 +79,9 @@ class GitHubScopeRepositoryImpl @Inject constructor(
                 }
             } catch (e: Exception) {
                 when (e) {
-                    is CancellationException -> throw e // Re-throw cancellation
-                    else -> Result.Error(e.message ?: "Network error occurred")
+                    is CancellationException -> throw e
+                    is UnknownHostException -> Result.Error("No internet connection")
+                    else -> Result.Error("Something went wrong: ${e.message}")
                 }
             }
         }

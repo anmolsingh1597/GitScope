@@ -15,13 +15,21 @@ class GetUserUseCase @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
+    suspend operator fun invoke(userId: String): Result<User> {
+        return if (userId.isBlank()) {
+            Result.Error("User ID cannot be empty")
+        } else {
+            repository.getUser(userId.trim())
+        }
+    }
 
-    fun invoke(userId: String): Flow<Result<User>> = flow {
+    //TODO: can be used if use case defined
+/*    operator fun invoke(userId: String): Flow<Result<User>> = flow {
         if (userId.isBlank()) {
             emit(Result.Error("User ID cannot be empty"))
         } else {
             emit(Result.Loading())
             emit(repository.getUser(userId.trim()))
         }
-    }.flowOn(ioDispatcher)
+    }.flowOn(ioDispatcher)*/
 }

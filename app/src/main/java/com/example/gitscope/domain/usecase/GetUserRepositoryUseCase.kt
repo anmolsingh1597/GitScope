@@ -14,12 +14,21 @@ class GetUserRepositoryUseCase @Inject constructor(
     private val repository: GitHubScopeRepository,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
-    fun invoke(userId: String): Flow<Result<List<Repository>>> = flow {
+
+    suspend operator fun invoke(userId: String): Result<List<Repository>> {
+        return if (userId.isBlank()) {
+            Result.Error("User ID cannot be empty")
+        } else {
+            repository.getUserRepositories(userId.trim())
+        }
+    }
+    //TODO: can be used if use case defined
+/*    operator fun invoke(userId: String): Flow<Result<List<Repository>>> = flow {
         if (userId.isBlank()) {
             emit(Result.Error("User ID cannot be empty"))
         } else {
             emit(Result.Loading())
             emit(repository.getUserRepositories(userId.trim()))
         }
-    }.flowOn(ioDispatcher)
+    }.flowOn(ioDispatcher)*/
 }
