@@ -1,4 +1,4 @@
-package com.example.gitscope.presentation.components
+package com.example.gitscope.presentation.sections
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn

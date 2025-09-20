@@ -1,4 +1,4 @@
-package com.example.gitscope.presentation.components
+package com.example.gitscope.presentation.sections
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.gitscope.data.model.Repository
+import com.example.gitscope.presentation.components.RepositoryItem
 
 @Composable
 fun RepositoriesSection(
