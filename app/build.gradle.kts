@@ -106,6 +106,11 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     kaptAndroidTest(libs.hilt.compiler)
 
+    // Mockk
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockk.android)
+    androidTestImplementation(libs.mockk.android)
+
     // Debug
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
