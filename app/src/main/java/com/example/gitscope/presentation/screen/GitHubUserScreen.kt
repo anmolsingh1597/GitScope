@@ -1,5 +1,8 @@
 package com.example.gitscope.presentation.screen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -7,10 +10,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,9 +37,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.gitscope.data.model.Repository
 import com.example.gitscope.data.model.User
 import com.example.gitscope.presentation.components.ErrorCard
-import com.example.gitscope.presentation.components.RepositoriesSection
-import com.example.gitscope.presentation.components.SearchSection
-import com.example.gitscope.presentation.components.UserSection
+import com.example.gitscope.presentation.sections.RepositoriesSection
+import com.example.gitscope.presentation.sections.SearchSection
+import com.example.gitscope.presentation.sections.UserSection
 import com.example.gitscope.presentation.viewmodel.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,9 +47,8 @@ import com.example.gitscope.presentation.viewmodel.UserViewModel
 fun GitHubUserScreen(
     modifier: Modifier = Modifier,
     viewModel: UserViewModel = hiltViewModel()
-){
+) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    var showRepositoryDetails by remember { mutableStateOf<Repository?>(null) }
 
     GitHubUserScreen(
         title = "GitHub User",
@@ -52,10 +61,10 @@ fun GitHubUserScreen(
         totalForks = uiState.totalForks,
         error = uiState.error,
         clearError = viewModel::clearError,
-        showRepositoryDetails = showRepositoryDetails,
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GitHubUserScreen(
     modifier: Modifier = Modifier,
@@ -69,58 +78,94 @@ fun GitHubUserScreen(
     totalForks: Int,
     error: String?,
     clearError: () -> Unit = {},
-    showRepositoryDetails: Repository?
-){
-    LaunchedEffect(Unit) {
+) {
+    var showRepositoryDetails by remember { mutableStateOf<Repository?>(null) }
 
+    //Detail Screen(conditional navigation)
+    showRepositoryDetails?.let { repository ->
+        RepositoryDetailScreen(
+            repository = repository,
+            totalForks = totalForks,
+            onDismiss = { showRepositoryDetails = null }
+        )
+
+        return
     }
-    Column (
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-    ){
-        Text(
-            text = title,
-            modifier = Modifier.padding(bottom = 16.dp),
-            fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.headlineMedium
-        )
 
-        SearchSection(
-            searchQuery = searchQuery,
-            onSearchQueryChange = updateSearchQuery,
-            onSearchClick = onSearchClick,
-            isLoading = isLoading
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-        error?.let { errorMessage ->
-            ErrorCard(
-                error = errorMessage,
-                onDismiss = clearError,
-                )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
-        if(isLoading){
-            Box (
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            )
-            {
-                CircularProgressIndicator()
-            }
-        }
-
-        user?.let { userInfo ->
-            if (!isLoading){
-                UserSection(user = userInfo)
-                Spacer(modifier = Modifier.height(16.dp))
-                if(repositories.isNotEmpty()){
-                    RepositoriesSection(
-                        repositories = repositories,
-                        onRepositoryClick = { showRepositoryDetails }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Home",
+                        maxLines = 1
                     )
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = {}
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Home,
+                            contentDescription = "Home"
+                        )
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues = paddingValues)
+                .padding(16.dp),
+        )
+        {
+            Text(
+                text = title,
+                modifier = Modifier.padding(bottom = 16.dp),
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.headlineMedium
+            )
+
+            SearchSection(
+                searchQuery = searchQuery,
+                onSearchQueryChange = updateSearchQuery,
+                onSearchClick = onSearchClick,
+                isLoading = isLoading
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+            error?.let { errorMessage ->
+                ErrorCard(
+                    error = errorMessage,
+                    onDismiss = clearError,
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            if (isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                )
+                {
+                    CircularProgressIndicator()
+                }
+            }
+
+            user?.let { userInfo ->
+                if (!isLoading) {
+                    UserSection(user = userInfo)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    if (repositories.isNotEmpty()) {
+                        RepositoriesSection(
+                            repositories = repositories,
+                            onRepositoryClick = { repository ->
+                                showRepositoryDetails = repository
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -130,7 +175,7 @@ fun GitHubUserScreen(
 
 @Preview
 @Composable
-fun GithubUserScreenPreview(){
+fun GithubUserScreenPreview() {
     GitHubUserScreen(
         title = "GitHub User",
         searchQuery = "",
@@ -141,13 +186,6 @@ fun GithubUserScreenPreview(){
         ),
         totalForks = 0,
         error = "",
-        showRepositoryDetails = Repository(
-            name = "Hello-World",
-            description = "This your first repo!",
-            forksCount = 0,
-            updatedAt = "2023-01-01T00:00:00Z",
-            stargazersCount = 0,
-        ),
     )
 
 }

@@ -3,6 +3,7 @@ package com.example.gitscope.presentation.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -16,6 +17,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.gitscope.data.model.Repository
+import com.example.gitscope.data.util.extensions.formatDate
 
 @Composable
 fun RepositoryItem(
@@ -55,7 +57,8 @@ fun RepositoryItem(
             horizontalArrangement = Arrangement.SpaceBetween
         ){
             Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.padding(16.dp)
             ){
                 Text(
                     text = "Stargazers: ${repository.stargazersCount}",
@@ -67,12 +70,14 @@ fun RepositoryItem(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                Spacer(Modifier.weight(1f))
+                Text(
+                    text = "Updated: ${repository.updatedAt.formatDate()}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
-            Text(
-                text = "Updated: ${repository.updatedAt}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+
         }
     }
 }
