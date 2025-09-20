@@ -21,6 +21,7 @@ robolectric = "4.16"
 parcelize = "2.2.20"
 runner = "1.7.0"
 coroutines = "1.8.1"
+foundation = "1.9.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,6 +65,7 @@ mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mo
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
+androidx-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.androidx.runner)
+    implementation(libs.androidx.foundation)
     kapt(libs.hilt.compiler)
 
     // Networking
