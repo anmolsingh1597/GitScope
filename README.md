@@ -93,23 +93,14 @@ To enable automatic test execution on every build, uncomment the following confi
 ```gradle
 // Uncomment to run tests automatically on build
 // android {
-//     testOptions {
-//         unitTests.returnDefaultValues = true
-//         unitTests.includeAndroidResources = true
-//     }
+//     tasks.whenTaskAdded {
+//        if (name == "assembleDebug"){
+//            dependsOn("testDebugUnitTest")
+//            dependsOn("connectedDebugAndroidTest")
+//        }
+//    }
 // }
-```
 
-### Test Execution Commands
-```bash
-# Execute unit tests
-./gradlew testDebugUnitTest
-
-# Execute instrumented tests
-./gradlew connectedDebugAndroidTest
-
-# Execute all test suites
-./gradlew test
 ```
 
 ## Continuous Integration and Deployment
@@ -119,14 +110,12 @@ Automated testing and quality assurance pipeline implemented with GitHub Actions
 
 **Pipeline Configuration:**
 - Unit Test execution with JDK 17
-- Instrumented Tests on Android Emulator API 34
 - Static code analysis and lint checking
 - Build verification and artifact generation
 
 ### Pipeline Capabilities
 - **Parallel Execution** - Concurrent job processing for optimized build times
 - **Artifact Management** - Automatic storage of test reports and build outputs
-- **Multi-Platform Testing** - Comprehensive device and API level compatibility verification
 - **Quality Assurance** - Automated code quality gates and standards enforcement
 
 ### Build Artifacts
@@ -134,7 +123,6 @@ The following artifacts are generated and stored after each CI execution:
 - **Unit Test Reports** - Comprehensive test execution results
 - **Application Packages** - Debug and release APK files
 - **Code Quality Reports** - Lint analysis and static code analysis results
-- **Instrumented Test Results** - UI and integration test outcomes
 
 ## Getting Started
 
