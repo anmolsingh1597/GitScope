@@ -1,6 +1,8 @@
 package com.example.gitscope.presentation.screen
 
 import android.content.res.Configuration
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -138,40 +140,78 @@ fun GitHubUserScreen(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-            error?.let { errorMessage ->
-                ErrorCard(
-                    error = errorMessage,
-                    onDismiss = clearError,
-                )
+
+            AnimatedVisibility(
+                visible = error != null,
+                enter = fadeIn(animationSpec = tween(300)) +
+                        slideInVertically(initialOffsetY = { it / 4 }),
+                exit = fadeOut() + slideOutVertically()
+            ) {
+                error?.let { errorMessage ->
+                    ErrorCard(
+                        error = errorMessage,
+                        onDismiss = clearError,
+                    )
+                }
+            }
+
+            if (error != null) {
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
-            if (isLoading) {
+            AnimatedVisibility(
+                visible = isLoading,
+                enter = fadeIn(animationSpec = tween(300)) +
+                        slideInVertically(initialOffsetY = { it / 4 }),
+                exit = fadeOut() + slideOutVertically()
+            ) {
                 Box(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
-                )
-                {
+                ) {
                     CircularProgressIndicator()
                 }
             }
 
             user?.let { userInfo ->
-                if (!isLoading) {
-                    UserSection(user = userInfo)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    if (repositories.isNotEmpty()) {
-                        RepositoriesSection(
-                            repositories = repositories,
-                            onRepositoryClick = { repository ->
-                                showRepositoryDetails = repository
-                            }
-                        )
+                AnimatedVisibility(
+                    visible = !isLoading,
+                    enter = fadeIn(animationSpec = tween(300)) +
+                            slideInVertically(initialOffsetY = { it / 4 }),
+                    exit = fadeOut() + slideOutVertically()
+                ) {
+                    Column {
+                        UserSection(user = userInfo)
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        AnimatedVisibility(
+                            visible = repositories.isNotEmpty(),
+                            enter = scaleIn(
+                                initialScale = 0.8f,
+                                animationSpec = tween(durationMillis = 400)
+                            ) + fadeIn(animationSpec = tween(durationMillis = 400)),
+                            exit = scaleOut(
+                                targetScale = 0.8f,
+                                animationSpec = tween(durationMillis = 300)
+                            ) + fadeOut(animationSpec = tween(durationMillis = 300))
+                        ) {
+                            RepositoriesSection(
+                                repositories = repositories,
+                                onRepositoryClick = { repository ->
+                                    showRepositoryDetails = repository
+                                }
+                            )
+                        }
                     }
                 }
             }
 
-            if (user == null && !isLoading){
+            AnimatedVisibility(
+                visible = user == null && !isLoading,
+                enter = fadeIn(animationSpec = tween(300)) +
+                        slideInVertically(initialOffsetY = { it / 4 }),
+                exit = fadeOut() + slideOutVertically()
+            ) {
                 RecentSearchSection(
                     recentSearches = recentSearches,
                     updateSearchQuery = updateSearchQuery
@@ -179,7 +219,6 @@ fun GitHubUserScreen(
             }
         }
     }
-
 }
 
 @Preview(name = "Light", group = "themes")
@@ -232,4 +271,3 @@ fun GithubUserScreenErrorPreview() {
         )
     }
 }
-
