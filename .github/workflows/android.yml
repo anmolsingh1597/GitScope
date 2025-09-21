@@ -23,11 +23,8 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build (skip instrumented tests)
-        run: ./gradlew build -x connectedAndroidTest
-
-      - name: Run unit tests
-        run: ./gradlew testDebugUnitTest
+      - name: Assemble APK and run unit tests (skip instrumented tests)
+        run: ./gradlew assembleDebug testDebugUnitTest -x connectedAndroidTest
 
       - name: Upload Test Reports
         if: always()
