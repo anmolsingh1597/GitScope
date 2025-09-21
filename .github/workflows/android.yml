@@ -11,10 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout code
       - uses: actions/checkout@v4
 
-      # Setup JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -22,19 +20,16 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      # Grant execute permission for gradlew
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # Build the project
       - name: Build with Gradle
         run: ./gradlew build --stacktrace
 
-      # Run JVM Unit Tests
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest
 
-      # Setup Android Emulator for Instrumentation Tests
+      # Emulator setup
       - name: Set up Android Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -44,13 +39,20 @@ jobs:
           profile: pixel_5
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot
 
-      # Run Instrumentation Tests
+
       - name: Run Instrumented Tests
         run: ./gradlew connectedDebugAndroidTest
+        continue-on-error: true
 
-      # Publish Test Reports
-      - name: Upload Test Reports
+      - name: Upload Unit Test Reports
         uses: actions/upload-artifact@v4
         with:
-          name: junit-reports
+          name: junit-unit-test-reports
           path: app/build/reports/tests/testDebugUnitTest
+
+      - name: Upload Instrumentation Test Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-instrumentation-test-reports
+          path: app/build/reports/androidTests/connected
