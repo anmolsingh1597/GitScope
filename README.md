@@ -141,6 +141,40 @@ The following artifacts are generated and stored after each CI execution:
 - **Application Packages** - Debug and release APK files
 - **Code Quality Reports** - Lint analysis and static code analysis results
 
+## Future Enhancements
+
+### Security Implementation
+- **Custom Authentication Annotations**
+    - Implement declarative security with custom annotations
+    - Create @Authenticated annotation class for endpoint security marking
+    - Develop OkHttp interceptor to automatically inject Bearer tokens based on annotation presence
+    - Support multiple authentication strategies (OAuth, Personal Access Tokens, GitHub Apps)
+
+```kotlin
+    @Authenticated
+    @GET("user/repos")
+    suspend fun getAuthenticatedUserRepos(): List<Repository>
+```
+
+### Technical Improvements
+- **Navigation Architecture Enhancement**
+    - Implement proper navigation routing for repository details
+    - Add deep linking support for direct repository access
+    - Migrate to proper Navigation Component implementation with type-safe arguments
+    - Separate ViewModels and UI states for repository details following UDF principles
+
+```kotlin
+     // Future implementation structure
+    @Composable
+    fun RepositoryDetailScreen(
+        repositoryId: String,
+        viewModel: RepositoryDetailViewModel = hiltViewModel()
+    ) {
+        val uiState by viewModel.uiState.collectAsState()
+        // Proper state management with dedicated ViewModel
+    }
+```
+
 ## Getting Started
 
 ### Prerequisites
