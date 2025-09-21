@@ -16,9 +16,7 @@ A modern Android application for GitHub user profile exploration and repository 
 ![App Screenshot](assets/1.png)
 
 ## App Demo
-<video src="assets/Screen_recording_20250921_180451.webm" controls width="400">
-  Your browser does not support the video tag.
-</video>
+![App Screenshot](assets/2.gif)
 
 ## Architecture
 
