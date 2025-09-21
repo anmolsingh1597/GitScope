@@ -85,7 +85,6 @@ fun GitHubUserScreen(
 ) {
     var showRepositoryDetails by remember { mutableStateOf<Repository?>(null) }
 
-    //Detail Screen(conditional navigation)
     showRepositoryDetails?.let { repository ->
         RepositoryDetailScreen(
             repository = repository,
