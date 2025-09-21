@@ -38,7 +38,7 @@ jobs:
       - name: Set up Android Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 33             # Choose your API level
+          api-level: 33
           target: default
           arch: x86_64
           profile: pixel_5
