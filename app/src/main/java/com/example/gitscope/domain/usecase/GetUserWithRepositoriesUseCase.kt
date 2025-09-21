@@ -1,6 +1,6 @@
 package com.example.gitscope.domain.usecase
 
-import com.example.gitscope.data.di.modules.DefaultDispatcher
+import com.example.gitscope.di.modules.DefaultDispatcher
 import com.example.gitscope.domain.model.UserWithRepositories
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

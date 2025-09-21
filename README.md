@@ -31,12 +31,10 @@ Presentation Layer
 
 Domain Layer  
 ├── Use Cases
-├── Domain Models
-└── Repository Interfaces
+└── Domain Models
 
 Data Layer
 ├── Repository Implementations
-├── API Services (Retrofit)
 ├── Data Models
 └── Remote Data Sources
 ```
@@ -225,9 +223,9 @@ app/
 │   ├── main/
 │   │   ├── java/com/example/gitscope/
 │   │   │   ├── data/           
-│   │   │   ├── domain/         
-│   │   │   ├── presentation/   
-│   │   │  
+│   │   │   ├── di/         
+│   │   │   ├── domain/   
+│   │   │   └── presentation/           
 │   │   └── res/               
 │   ├── test/                  
 │   └── androidTest/           

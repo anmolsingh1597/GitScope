@@ -1,6 +1,6 @@
 package com.example.gitscope.data.repository
 
-import com.example.gitscope.data.di.modules.IoDispatcher
+import com.example.gitscope.di.modules.IoDispatcher
 import com.example.gitscope.data.model.Repository
 import com.example.gitscope.data.model.User
 import com.example.gitscope.data.remote.interfaces.ApiInterface

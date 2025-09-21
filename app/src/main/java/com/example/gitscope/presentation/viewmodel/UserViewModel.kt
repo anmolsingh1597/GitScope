@@ -1,7 +1,7 @@
 package com.example.gitscope.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.gitscope.data.di.modules.MainDispatcher
+import com.example.gitscope.di.modules.MainDispatcher
 import com.example.gitscope.domain.usecase.CalculateTotalForkUseCase
 import com.example.gitscope.domain.usecase.GetUserRepositoryUseCase
 import com.example.gitscope.domain.usecase.GetUserUseCase

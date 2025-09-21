@@ -1,4 +1,4 @@
-package com.example.gitscope.data.util.extensions
+package com.example.gitscope.presentation.util.extensions
 
 import java.time.Instant
 import java.time.ZoneId

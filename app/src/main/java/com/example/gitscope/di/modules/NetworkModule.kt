@@ -1,4 +1,4 @@
-package com.example.gitscope.data.di.modules
+package com.example.gitscope.di.modules
 
 import com.example.gitscope.data.remote.interfaces.ApiInterface
 import dagger.Module

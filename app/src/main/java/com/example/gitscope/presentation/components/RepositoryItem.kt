@@ -29,7 +29,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.gitscope.data.model.Repository
-import com.example.gitscope.data.util.extensions.formatDate
+import com.example.gitscope.presentation.util.extensions.formatDate
 import kotlinx.coroutines.delay
 
 @Composable
