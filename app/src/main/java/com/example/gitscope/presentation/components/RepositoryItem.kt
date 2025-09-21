@@ -40,7 +40,7 @@ fun RepositoryItem(
     var isVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        delay(300)
+        delay(100)
         isVisible = true
     }
 
