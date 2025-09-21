@@ -83,10 +83,26 @@ UI State ← StateFlow ← Domain Models ← Data Models
 
 The application includes comprehensive testing coverage across multiple layers:
 
-### Test Categories
-- **Unit Tests** - ViewModel logic, Use Cases, and Repository implementations
-- **Instrumented Tests** - Android-specific functionality and integration testing
-- **UI Tests** - Jetpack Compose interface interactions
+### Test Approach
+- **Unit Tests** (Domain Layer)
+   - Use cases: `GetUserUseCase`, `GetUserRepositoriesUseCase`, `CalculateTotalForksUseCase`, `GetUserWithRepositoriesUseCase`
+   - Business logic validation
+   - Fast, isolated testing
+- **Integration Tests** (Data Layer)
+   - Repository implementations
+   - API service interactions
+   - Database operations
+- **UI Tests** (Presentation Layer)
+   - Compose UI behavior
+   - User interactions
+   - Screen navigation
+
+### What Is Covered
+- **Covered:**
+  - Input validation (empty userId)
+  - Success scenarios (valid user data)
+  - Data transformation (trimming whitespace)
+  - Business logic in use cases
 
 ### Local Test Execution
 To enable automatic test execution on every build, uncomment the following configuration in `build.gradle` (app level):
