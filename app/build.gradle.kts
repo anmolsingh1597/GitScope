@@ -18,8 +18,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        //testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunner = "dagger.hilt.android.testing.HiltTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        //testInstrumentationRunner = "dagger.hilt.android.testing.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -52,13 +52,19 @@ android {
     packaging{
         resources{
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/LICENSE.md"
+            excludes += "META-INF/LICENSE-notice.md"
+            excludes += "META-INF/LICENSE*"
+            excludes += "META-INF/NOTICE*"
+            excludes += "META-INF/gradle/incremental.annotation.processors"
         }
     }
 
-    // To run all tasks in parallel
+    // To run all tests in parallel
     tasks.whenTaskAdded {
         if (name == "assembleDebug"){
             dependsOn("testDebugUnitTest")
+            dependsOn("connectedDebugAndroidTest")
         }
     }
 }
@@ -102,6 +108,7 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.core)
     testImplementation(libs.hilt.android.testing)
+    testImplementation(libs.hilt.compiler)
     testImplementation(libs.robolectric)
     kaptTest(libs.hilt.compiler)
 
