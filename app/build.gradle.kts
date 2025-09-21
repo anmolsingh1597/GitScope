@@ -54,6 +54,13 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    // To run all tasks in parallel
+    tasks.whenTaskAdded {
+        if (name == "assembleDebug"){
+            dependsOn("testDebugUnitTest")
+        }
+    }
 }
 
 dependencies {
