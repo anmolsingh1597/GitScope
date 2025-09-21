@@ -1,8 +1,6 @@
 package com.example.gitscope.presentation.screen
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,7 +19,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,6 +36,7 @@ import com.example.gitscope.presentation.components.ErrorCard
 import com.example.gitscope.presentation.sections.RepositoriesSection
 import com.example.gitscope.presentation.sections.SearchSection
 import com.example.gitscope.presentation.sections.UserSection
+import com.example.gitscope.presentation.ui.theme.GitScopeTheme
 import com.example.gitscope.presentation.viewmodel.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -173,19 +170,72 @@ fun GitHubUserScreen(
 
 }
 
-@Preview
+@Preview(name = "Light", group = "themes")
+@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES, group = "themes")
 @Composable
-fun GithubUserScreenPreview() {
-    GitHubUserScreen(
-        title = "GitHub User",
-        searchQuery = "",
-        isLoading = false,
-        user = User(
-            avatarUrl = "https://avatars.githubusercontent.com/u/583231?v=4",
-            name = "The Octocat",
-        ),
-        totalForks = 0,
-        error = "",
-    )
-
+fun GithubUserScreenThemePreview() {
+    GitScopeTheme {
+        GitHubUserScreen(
+            title = "GitHub User",
+            searchQuery = "octocat",
+            isLoading = false,
+            user = User(
+                avatarUrl = "https://avatars.githubusercontent.com/u/583231?v=4",
+                name = "The Octocat",
+            ),
+            totalForks = 1250,
+            error = "",
+        )
+    }
 }
+
+@Preview(
+    name = "Loading",
+)
+@Composable
+fun GithubUserScreenLoadingPreview() {
+    GitScopeTheme {
+        GitHubUserScreen(
+            title = "GitHub User",
+            searchQuery = "octocat",
+            isLoading = true,
+            user = null,
+            totalForks = 0,
+            error = "",
+        )
+    }
+}
+
+@Preview(name = "Error State")
+@Composable
+fun GithubUserScreenErrorPreview() {
+    GitScopeTheme {
+        GitHubUserScreen(
+            title = "GitHub User",
+            searchQuery = "nonexistentuser",
+            isLoading = false,
+            user = null,
+            totalForks = 0,
+            error = "User not found",
+        )
+    }
+}
+
+@Preview(name = "Gold Star User")
+@Composable
+fun GithubUserScreenGoldStarPreview() {
+    GitScopeTheme {
+        GitHubUserScreen(
+            title = "GitHub User",
+            searchQuery = "torvalds",
+            isLoading = false,
+            user = User(
+                avatarUrl = "https://avatars.githubusercontent.com/u/1024025?v=4",
+                name = "Linus Torvalds",
+            ),
+            totalForks = 15420,
+            error = "",
+        )
+    }
+}
+

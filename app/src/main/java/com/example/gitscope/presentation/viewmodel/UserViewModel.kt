@@ -36,7 +36,7 @@ class UserViewModel @Inject constructor(
     private var searchJob: Job? = null
 
     fun updateSearchQuery(query: String) {
-        //Preferable 'update' because its Atomic operation and prevent race condition
+        // 'update' is a  'Atomic' operation and prevent race condition
         _uiState.update {
             it.copy(
                 searchQuery = query
@@ -71,6 +71,7 @@ class UserViewModel @Inject constructor(
                     }
 
                     is Result.Error -> {
+                        clearUser()
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
@@ -92,6 +93,7 @@ class UserViewModel @Inject constructor(
             } catch (e: CancellationException) {
                 return@launch
             } catch (e: UnknownHostException) {
+                clearUser()
                 _uiState.update {
                     it.copy(
                         isLoading = false,
@@ -99,6 +101,7 @@ class UserViewModel @Inject constructor(
                     )
                 }
             } catch (e: Exception) {
+                clearUser()
                 _uiState.update {
                     it.copy(
                         isLoading = false,

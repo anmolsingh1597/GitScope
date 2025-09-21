@@ -1,5 +1,6 @@
 package com.example.gitscope.presentation.screen
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.example.gitscope.data.model.Repository
 import com.example.gitscope.data.util.extensions.formatDate
 import com.example.gitscope.presentation.components.DetailRow
+import com.example.gitscope.presentation.ui.theme.GitScopeTheme
 import kotlin.String
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -113,21 +115,39 @@ fun RepositoryDetailScreen(
 
 }
 
-@Preview
+@Preview(name = "Light", group = "themes")
+@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES, group = "themes")
 @Composable
-fun RepositoryDetailScreenPreview() {
-    MaterialTheme {
+fun RepositoryDetailScreenThemePreview() {
+    GitScopeTheme {
         RepositoryDetailScreen(
             repository = Repository(
                 name = "Hello-World",
                 description = "This your first repo!",
-                forksCount = 0,
-                updatedAt = "2023-01-01T00:00:00Z",
-                stargazersCount = 0,
+                forksCount = 42,
+                updatedAt = "2024-01-15T10:30:00Z",
+                stargazersCount = 123,
             ),
-            totalForks = 65000,
+            totalForks = 5000,
             onDismiss = {}
         )
     }
+}
 
+@Preview(name = "Popular Repository")
+@Composable
+fun RepositoryDetailScreenPopularPreview() {
+    GitScopeTheme {
+        RepositoryDetailScreen(
+            repository = Repository(
+                name = "react",
+                description = "The library for web and native user interfaces",
+                forksCount = 45623,
+                updatedAt = "2024-09-21T08:15:00Z",
+                stargazersCount = 228000,
+            ),
+            totalForks = 125000,
+            onDismiss = {}
+        )
+    }
 }

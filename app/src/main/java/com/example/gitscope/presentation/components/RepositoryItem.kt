@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle.Companion.Italic
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,7 +24,7 @@ import com.example.gitscope.data.util.extensions.formatDate
 fun RepositoryItem(
     repository: Repository,
     onClick: () -> Unit = {}
-){
+) {
     Card(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
@@ -31,9 +32,9 @@ fun RepositoryItem(
             defaultElevation = 4.dp
         )
     ) {
-        Column (
-            modifier = Modifier.padding(16.dp)
-        ){
+        Column(
+            modifier = Modifier.padding(8.dp)
+        ) {
             Text(
                 text = repository.name,
                 style = MaterialTheme.typography.titleMedium,
@@ -41,8 +42,9 @@ fun RepositoryItem(
             )
 
             Text(
-                text = repository.description ?: "",
+                text = repository.description ?: "No description available",
                 style = MaterialTheme.typography.bodyMedium,
+                fontStyle = if(repository.description == null) Italic else MaterialTheme.typography.bodyMedium.fontStyle,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -51,46 +53,41 @@ fun RepositoryItem(
         }
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ){
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(16.dp)
-            ){
-                Text(
-                    text = "Stargazers: ${repository.stargazersCount}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Text(
-                    text = "Forks: ${repository.forksCount}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(Modifier.weight(1f))
-                Text(
-                    text = "Updated: ${repository.updatedAt.formatDate()}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text(
+                text = "Stargazers: ${repository.stargazersCount}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = "Forks: ${repository.forksCount}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(Modifier.weight(1f))
+            Text(
+                text = "Updated: ${repository.updatedAt.formatDate()}",
+                style = MaterialTheme.typography.bodySmall,
+                fontStyle = Italic,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
+
+
     }
 }
 
 
 @Preview
 @Composable
-fun RepositoryItemPreview(){
+fun RepositoryItemPreview() {
     RepositoryItem(
         repository = Repository(
             name = "Hello-World",
             description = "This your first repo!",
-            forksCount = 0,
+            forksCount = 1213124,
             updatedAt = "2023-01-01T00:00:00Z",
             stargazersCount = 0,
         )
