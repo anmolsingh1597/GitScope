@@ -9,6 +9,7 @@ A modern Android application for GitHub user profile exploration and repository 
 - **Repository Browsing** - Browse all public repositories with detailed descriptions
 - **Repository Analytics** - Access stars, forks, and last updated information for each repository
 - **Fork Analytics** - Calculate total forks across all user repositories with recognition badges for users with 5000+ total forks
+- **Recent Searches** - Track and display recent searches for quick navigation
 - **Responsive Design** - Optimized interface for different screen sizes and accessibility requirements
 
 ## Screenshots

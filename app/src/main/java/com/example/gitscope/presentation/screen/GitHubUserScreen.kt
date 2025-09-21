@@ -33,6 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.gitscope.data.model.Repository
 import com.example.gitscope.data.model.User
 import com.example.gitscope.presentation.components.ErrorCard
+import com.example.gitscope.presentation.sections.RecentSearchSection
 import com.example.gitscope.presentation.sections.RepositoriesSection
 import com.example.gitscope.presentation.sections.SearchSection
 import com.example.gitscope.presentation.sections.UserSection
@@ -58,6 +59,8 @@ fun GitHubUserScreen(
         totalForks = uiState.totalForks,
         error = uiState.error,
         clearError = viewModel::clearError,
+        clearSession = viewModel::clearUiState,
+        recentSearches = uiState.recentSearches
     )
 }
 
@@ -75,6 +78,8 @@ fun GitHubUserScreen(
     totalForks: Int,
     error: String?,
     clearError: () -> Unit = {},
+    clearSession: () -> Unit = {},
+    recentSearches: List<String> = emptyList()
 ) {
     var showRepositoryDetails by remember { mutableStateOf<Repository?>(null) }
 
@@ -100,7 +105,7 @@ fun GitHubUserScreen(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = {}
+                        onClick = clearSession
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Home,
@@ -165,6 +170,13 @@ fun GitHubUserScreen(
                     }
                 }
             }
+
+            if (user == null && !isLoading){
+                RecentSearchSection(
+                    recentSearches = recentSearches,
+                    updateSearchQuery = updateSearchQuery
+                )
+            }
         }
     }
 
@@ -217,24 +229,6 @@ fun GithubUserScreenErrorPreview() {
             user = null,
             totalForks = 0,
             error = "User not found",
-        )
-    }
-}
-
-@Preview(name = "Gold Star User")
-@Composable
-fun GithubUserScreenGoldStarPreview() {
-    GitScopeTheme {
-        GitHubUserScreen(
-            title = "GitHub User",
-            searchQuery = "torvalds",
-            isLoading = false,
-            user = User(
-                avatarUrl = "https://avatars.githubusercontent.com/u/1024025?v=4",
-                name = "Linus Torvalds",
-            ),
-            totalForks = 15420,
-            error = "",
         )
     }
 }

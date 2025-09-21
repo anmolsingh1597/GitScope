@@ -9,6 +9,7 @@ data class UserUiState(
     val repositories: List<Repository> = emptyList(),
     val error: String? = null,
     val totalForks: Int = 0,
-    val searchQuery: String = ""
+    val searchQuery: String = "",
+    val recentSearches: List<String> = emptyList()
 )
 

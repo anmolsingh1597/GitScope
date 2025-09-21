@@ -46,7 +46,7 @@ class UserViewModel @Inject constructor(
 
     fun searchUser(userId: String = uiState.value.searchQuery) {
         searchJob?.cancel()
-
+        updateRecentSearch(userId)
         searchJob = viewModelScope.launch {
             _uiState.update { it ->
                 it.copy(
@@ -114,6 +114,18 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    private fun updateRecentSearch(userId: String) {
+        _uiState.update { currentState ->
+            val updatedRecentSearches = currentState.recentSearches
+                .filterNot { it == userId }
+                .let { listOf(userId) + it }
+                .take(5)
+
+            currentState.copy(recentSearches = updatedRecentSearches)
+        }
+    }
+
+
     fun clearError() {
         _uiState.update {
             it.copy(
@@ -147,7 +159,8 @@ class UserViewModel @Inject constructor(
                 user = null,
                 repositories = emptyList(),
                 error = null,
-                totalForks = 0
+                totalForks = 0,
+                searchQuery = ""
             )
         }
     }
