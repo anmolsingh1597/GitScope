@@ -18,8 +18,10 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.gitscope.GitScopeTestRunner"
+        //testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         //testInstrumentationRunner = "dagger.hilt.android.testing.HiltTestRunner"
+
         vectorDrawables {
             useSupportLibrary = true
         }

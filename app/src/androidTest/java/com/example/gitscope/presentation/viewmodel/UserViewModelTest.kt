@@ -9,12 +9,15 @@ import com.example.gitscope.domain.usecase.GetUserRepositoryUseCase
 import com.example.gitscope.domain.usecase.GetUserUseCase
 import com.example.gitscope.domain.usecase.GetUserWithRepositoriesUseCase
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -76,5 +79,27 @@ class UserViewModelTest {
         assertEquals(expectedResult.data.user, viewModel.uiState.value.user)
         assertEquals(expectedResult.data.repositories, viewModel.uiState.value.repositories)
         assertEquals(expectedResult.data.totalForks, viewModel.uiState.value.totalForks)
+    }
+
+    @Test
+    fun concurrent_search_cancels_previous_operation() = testScope.runTest {
+        coEvery { mockGetUserWithRepositoriesUseCase(any()) } coAnswers {
+            delay(100)
+            Result.Success(
+                UserWithRepositories(
+                    user = User("octocat", "https://avatars.githubusercontent.com/u/583231?v=4"),
+                    repositories = emptyList(),
+                    totalForks = 0
+                )
+            )
+        }
+
+        viewModel.searchUser("user1")
+        advanceTimeBy(50)
+
+        viewModel.searchUser("user2")
+        advanceUntilIdle()
+
+        coVerify(exactly = 1) { mockGetUserWithRepositoriesUseCase("user2") }
     }
 }
