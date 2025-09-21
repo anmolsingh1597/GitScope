@@ -15,6 +15,11 @@ A modern Android application for GitHub user profile exploration and repository 
 ## Screenshots
 ![App Screenshot](assets/1.png)
 
+## App Demo
+<video src="assets/Screen_recording_20250921_180451.webm" controls width="400">
+  Your browser does not support the video tag.
+</video>
+
 ## Architecture
 
 This application follows **Clean Architecture** principles with **Unidirectional Data Flow (UDF)** pattern implementation:
