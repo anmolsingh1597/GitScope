@@ -13,6 +13,8 @@ A modern Android application for GitHub user profile exploration and repository 
 - **Responsive Design** - Optimized interface for different screen sizes and accessibility requirements
 
 ## Screenshots
+![App Screenshot](assets/1.png)![App Screenshot](assets/2.png)![App Screenshot](assets/3.png)
+![App Screenshot](assets/4.png)![App Screenshot](assets/5.png)![App Screenshot](assets/6.png)
 
 ## Architecture
 
