@@ -6,11 +6,9 @@ A modern Android application for GitHub user profile exploration and repository 
 ### Core Functionality
 - **GitHub User Search** - Search and explore GitHub user profiles by username
 - **User Profile Display** - View comprehensive user information including avatars and basic details
-- **Repository Browsing** - Browse all public repositories with detailed descriptions
 - **Repository Analytics** - Access stars, forks, and last updated information for each repository
 - **Fork Analytics** - Calculate total forks across all user repositories with recognition badges for users with 5000+ total forks
 - **Recent Searches** - Track and display recent searches for quick navigation
-- **Responsive Design** - Optimized interface for different screen sizes and accessibility requirements
 
 ## Screenshots
 ![App Screenshot](assets/1.png)
@@ -132,26 +130,21 @@ To enable automatic test execution on every build, uncomment the following confi
 
 ```
 
-## Continuous Integration and Deployment
+## CI/CD Pipeline
 
 ### GitHub Actions Integration
-Automated testing and quality assurance pipeline implemented with GitHub Actions:
+Automated pipeline running on JDK 17 (please refer to `.github/workflows/android.yml` )
 
 **Pipeline Configuration:**
-- Unit Test execution with JDK 17
-- Static code analysis and lint checking
-- Build verification and artifact generation
+- Unit tests
+- Code quality checks (lint)
+- APK generation
 
-### Pipeline Capabilities
-- **Parallel Execution** - Concurrent job processing for optimized build times
-- **Artifact Management** - Automatic storage of test reports and build outputs
-- **Quality Assurance** - Automated code quality gates and standards enforcement
-
-### Build Artifacts
-The following artifacts are generated and stored after each CI execution:
-- **Unit Test Reports** - Comprehensive test execution results
-- **Application Packages** - Debug and release APK files
-- **Code Quality Reports** - Lint analysis and static code analysis results
+### Available Artifacts
+After each build, check the Actions tab on GitHub for downloadable artifacts:
+- APK files (debug/release builds)
+- Test reports (unit tests only)
+- **Note** - Instrumented tests run locally only (no emulator in GitHub Actions).
 
 ## Future Enhancements
 
@@ -253,11 +246,6 @@ The following artifacts are generated and stored after each CI execution:
    
    # Alternative: Use Android Studio run configuration
    ```
-
-### Configuration Notes
-- No API authentication required
-- Application utilizes GitHub's public API with standard rate limiting
-- Network connectivity required for data retrieval
 
 ## Project Structure
 
