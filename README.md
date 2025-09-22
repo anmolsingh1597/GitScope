@@ -95,7 +95,7 @@ The application includes comprehensive testing coverage across multiple layers:
 - **UI Tests** (Presentation Layer)
    - Compose UI behavior
    - Render Previews
-   - Screen: `GitHubUserScreen`
+   - Screen: `GitHubUserScreen`, `RepositoryDetailScreen`
 
 ### What Is Covered
 - **Covered:**
@@ -113,6 +113,8 @@ The application includes comprehensive testing coverage across multiple layers:
     - Concurrent Searches
   - Data transformation 
     - Trimming whitespace
+  - UI rendering 
+    - Star badge visibility
 
 ### Local Test Execution
 To enable automatic test execution on every build, uncomment the following configuration in `build.gradle` (app level):
