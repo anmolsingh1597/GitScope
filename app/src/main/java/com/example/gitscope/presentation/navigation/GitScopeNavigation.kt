@@ -53,16 +53,15 @@ fun GitScopeNavigation (
             RepositoryDetailScreen(
                 repositoryNavArgs = navArgs ?: RepositoryNavArgs(
                     repository = Repository(
-                        name = "Hello-World",
-                        description = "This your first repo!",
-                        forksCount = 42,
-                        updatedAt = "2024-01-15T10:30:00Z",
-                        stargazersCount = 123,
+                        name = "",
+                        description = "",
+                        forksCount = 0,
+                        updatedAt = "0",
+                        stargazersCount = 0,
                     ),
-                    totalForks = 5000
+                    totalForks = 0
                 ),
                 onDismiss = { navController.popBackStack() },
-                enableAnimation = false,
             )
         }
     }
