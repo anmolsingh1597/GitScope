@@ -5,6 +5,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.gitscope.data.model.Repository
+import com.example.gitscope.presentation.navigation.RepositoryNavArgs
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,6 +20,7 @@ class RepositoryDetailScreenTest {
     fun repositoryDetailScreen_displays_repository_name(){
         composeTestRule.setContent {
             RepositoryDetailScreen(
+                repositoryNavArgs = RepositoryNavArgs(
                 repository = Repository(
                     name = "Test Repository",
                     description = "Test Description",
@@ -26,8 +28,8 @@ class RepositoryDetailScreenTest {
                     stargazersCount = 10,
                     forksCount = 5),
                 totalForks = 5,
+                ),
                 onDismiss = {},
-                enableAnimation = false
             )
         }
 
@@ -40,15 +42,16 @@ class RepositoryDetailScreenTest {
     fun repositoryDetailScreen_displays_no_description_when_null() {
         composeTestRule.setContent {
             RepositoryDetailScreen(
-                repository = Repository(
-                    name = "Test Repository",
-                    description = null,
-                    updatedAt = "2023-08-01T00:00:00Z",
-                    stargazersCount = 10,
-                    forksCount = 5),
-                totalForks = 5000,
+                repositoryNavArgs = RepositoryNavArgs(
+                    repository = Repository(
+                        name = "Test Repository",
+                        description = null,
+                        updatedAt = "2023-08-01T00:00:00Z",
+                        stargazersCount = 10,
+                        forksCount = 5),
+                    totalForks = 5,
+                ),
                 onDismiss = {},
-                enableAnimation = false
             )
         }
 
@@ -61,15 +64,16 @@ class RepositoryDetailScreenTest {
     fun repositoryDetailScreen_displays_regular_total_forks_when_under_threshold() {
         composeTestRule.setContent {
             RepositoryDetailScreen(
-                repository = Repository(
-                    name = "Test Repository",
-                    description = null,
-                    updatedAt = "2023-08-01T00:00:00Z",
-                    stargazersCount = 10,
-                    forksCount = 5),
-                totalForks = 3000,
+                repositoryNavArgs = RepositoryNavArgs(
+                    repository = Repository(
+                        name = "Test Repository",
+                        description = "Test Description",
+                        updatedAt = "2023-08-01T00:00:00Z",
+                        stargazersCount = 10,
+                        forksCount = 5),
+                    totalForks = 3000,
+                ),
                 onDismiss = {},
-                enableAnimation = false
             )
         }
 
@@ -82,15 +86,16 @@ class RepositoryDetailScreenTest {
     fun repositoryDetailScreen_displays_special_total_forks_when_over_threshold() {
         composeTestRule.setContent {
             RepositoryDetailScreen(
-                repository = Repository(
-                    name = "Test Repository",
-                    description = null,
-                    updatedAt = "2023-08-01T00:00:00Z",
-                    stargazersCount = 10,
-                    forksCount = 5),
-                totalForks = 6000,
+                repositoryNavArgs = RepositoryNavArgs(
+                    repository = Repository(
+                        name = "Test Repository",
+                        description = "Test Description",
+                        updatedAt = "2023-08-01T00:00:00Z",
+                        stargazersCount = 10,
+                        forksCount = 5),
+                    totalForks = 6000,
+                ),
                 onDismiss = {},
-                enableAnimation = false
             )
         }
 
