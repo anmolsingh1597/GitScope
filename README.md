@@ -87,14 +87,10 @@ The application includes comprehensive testing coverage across multiple layers:
 - **Unit Tests**
    - Use cases: `GetUserUseCase`, `GetUserRepositoriesUseCase`, `CalculateTotalForksUseCase`, `GetUserWithRepositoriesUseCase`,
    - Repository: `GitHubScopeRepository`
-   - Business logic validation
+   - Extensions: `StringExtension`
 - **Integration Tests**
    - ViewModel implementations: `UserViewModel`
-   - Concurrent operations
-   - Proper state management
 - **UI Tests** (Presentation Layer)
-   - Compose UI behavior
-   - Render Previews
    - Screen: `GitHubUserScreen`, `RepositoryDetailScreen`
 
 ### What Is Covered
@@ -115,6 +111,8 @@ The application includes comprehensive testing coverage across multiple layers:
     - Trimming whitespace
   - UI rendering 
     - Star badge visibility
+  - Extensions
+    - Ensure data is formatted correctly
 
 ### Local Test Execution
 To enable automatic test execution on every build, uncomment the following configuration in `build.gradle` (app level):
