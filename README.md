@@ -177,6 +177,40 @@ The following artifacts are generated and stored after each CI execution:
     }
 ```
 
+- **Reactive Programming Enhancement**
+    - Migrate from suspend functions to Flow-based reactive architecture
+    - Replace simple suspend function calls with proper Flow streams for reactive programming
+
+```kotlin
+      // Current: Overkill Flow wrapper
+        override fun getUserFlow(userId: String): Flow<Result<User>> =
+          flow {
+            emit(Result.Loading())
+            emit(getUser(userId))
+          }.flowOn(ioDispatcher)
+        
+        override fun getUserRepositoriesFlow(userId: String): Flow<Result<List<Repository>>> = flow {
+          emit(Result.Loading())
+          emit(getUserRepositories(userId))
+        }.flowOn(ioDispatcher)
+```
+
+- **Security & Code Protection**
+    - Implement ProGuard rules for data obfuscation
+    - Add comprehensive ProGuard/R8 rules to protect sensitive business logic
+    - Obfuscate API endpoints, repository implementations, and domain models
+
+``` markdown
+      # Protect domain models and API interfaces
+        -keep class com.example.gitscope.domain.model.** { *; }
+        -keep class com.example.gitscope.data.api.** { *; }
+        
+        # Obfuscate repository implementations
+        -keepclassmembers class com.example.gitscope.data.repository.** {
+            public <methods>;
+        }
+```
+
 ## Getting Started
 
 ### Prerequisites

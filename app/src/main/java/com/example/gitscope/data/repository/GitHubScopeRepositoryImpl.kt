@@ -86,15 +86,4 @@ class GitHubScopeRepositoryImpl @Inject constructor(
                 }
             }
         }
-
-    override fun getUserFlow(userId: String): Flow<Result<User>> =
-        flow {
-            emit(Result.Loading())
-            emit(getUser(userId))
-        }.flowOn(ioDispatcher)
-
-    override fun getUserRepositoriesFlow(userId: String): Flow<Result<List<Repository>>> = flow {
-        emit(Result.Loading())
-        emit(getUserRepositories(userId))
-    }.flowOn(ioDispatcher)
 }

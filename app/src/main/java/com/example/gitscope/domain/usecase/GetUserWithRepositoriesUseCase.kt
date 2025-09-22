@@ -53,43 +53,4 @@ class GetUserWithRepositoriesUseCase @Inject constructor(
             }
         }
     }
-
-    //TODO: Using reactive programming for regular api call, might be overkill
-    /*operator fun invoke(userId: String): Flow<Result<UserWithRepositories>> {
-        if (userId.isBlank()) {
-            return flowOf(Result.Error("User ID cannot be empty"))
-        }
-
-        return combine(
-            getUserUseCase(userId),
-            getUserRepositoriesUseCase(userId)
-        ) { userResult, repositoriesResult ->
-            when {
-                userResult is Result.Loading || repositoriesResult is Result.Loading -> {
-                    Result.Loading<UserWithRepositories>()
-                }
-                userResult is Result.Error -> Result.Error<UserWithRepositories>(userResult.message)
-                repositoriesResult is Result.Error -> Result.Error<UserWithRepositories>(repositoriesResult.message)
-                userResult is Result.Success && repositoriesResult is Result.Success -> {
-                    val user = userResult.data
-                    val repositories = repositoriesResult.data
-                    val totalForks = calculateTotalForkUseCase(repositories)
-                    Result.Success(
-                        UserWithRepositories(
-                            user = user,
-                            repositories = repositories,
-                            totalForks = totalForks
-                        )
-                    )
-                }
-                else -> Result.Error<UserWithRepositories>("Something went wrong")
-            }
-        }.catch { e ->
-            when (e) {
-                is CancellationException -> throw e
-                is UnknownHostException -> emit(Result.Error("No internet connection"))
-                else -> emit(Result.Error("Something went wrong: ${e.message}"))
-            }
-        }.flowOn(defaultDispatcher)
-    }*/
 }

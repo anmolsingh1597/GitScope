@@ -20,14 +20,4 @@ class GetUserUseCase @Inject constructor(
             repository.getUser(userId.trim())
         }
     }
-
-    //TODO: Can be used in future with proper use case defined
-/*    operator fun invoke(userId: String): Flow<Result<User>> = flow {
-        if (userId.isBlank()) {
-            emit(Result.Error("User ID cannot be empty"))
-        } else {
-            emit(Result.Loading())
-            emit(repository.getUser(userId.trim()))
-        }
-    }.flowOn(ioDispatcher)*/
 }
