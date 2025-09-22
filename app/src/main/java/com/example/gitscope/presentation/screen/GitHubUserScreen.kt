@@ -38,6 +38,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.gitscope.data.model.Repository
 import com.example.gitscope.data.model.User
 import com.example.gitscope.presentation.components.ErrorCard
+import com.example.gitscope.presentation.navigation.RepositoryNavArgs
 import com.example.gitscope.presentation.sections.RecentSearchSection
 import com.example.gitscope.presentation.sections.RepositoriesSection
 import com.example.gitscope.presentation.sections.SearchSection
@@ -49,7 +50,7 @@ import com.example.gitscope.presentation.viewmodel.UserViewModel
 @Composable
 fun GitHubUserScreen(
     viewModel: UserViewModel = hiltViewModel(),
-    onNavigateToRepositoryDetail: (Repository) -> Unit = {}
+    onNavigateToRepositoryDetail: (RepositoryNavArgs) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -85,7 +86,7 @@ fun GitHubUserScreen(
     clearError: () -> Unit = {},
     clearSession: () -> Unit = {},
     recentSearches: List<String> = emptyList(),
-    onNavigateToRepositoryDetail: (Repository) -> Unit = {}
+    onNavigateToRepositoryDetail: (RepositoryNavArgs) -> Unit = {}
 ) {
 
 
@@ -191,7 +192,10 @@ fun GitHubUserScreen(
                             RepositoriesSection(
                                 repositories = repositories,
                                 onRepositoryClick = { repository ->
-                                   onNavigateToRepositoryDetail(repository)
+                                   onNavigateToRepositoryDetail(RepositoryNavArgs(
+                                       repository = repository,
+                                       totalForks = totalForks
+                                   ))
                                 }
                             )
                         }

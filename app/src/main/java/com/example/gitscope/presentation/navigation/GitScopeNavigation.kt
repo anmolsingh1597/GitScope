@@ -1,5 +1,6 @@
 package com.example.gitscope.presentation.navigation
 
+import android.os.Parcelable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -9,6 +10,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.gitscope.data.model.Repository
 import com.example.gitscope.presentation.screen.GitHubUserScreen
 import com.example.gitscope.presentation.screen.RepositoryDetailScreen
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class RepositoryNavArgs(
+    val repository: Repository,
+    val totalForks: Int
+) : Parcelable
 
 
 object GitScopeRoutes {
@@ -30,27 +38,31 @@ fun GitScopeNavigation (
     ) {
         composable(GitScopeRoutes.HOME) {
             GitHubUserScreen(
-                onNavigateToRepositoryDetail = { repository ->
-                    navController.currentBackStackEntry?.savedStateHandle?.set("repository", repository)
+                onNavigateToRepositoryDetail = { navArgs ->
+                    navController.currentBackStackEntry?.savedStateHandle?.set("navArgs", navArgs)
                     navController.navigate(GitScopeRoutes.REPOSITORY_DETAIL)
                 }
             )
         }
 
         composable(GitScopeRoutes.REPOSITORY_DETAIL) {
-            val repository = navController.previousBackStackEntry
+            val navArgs = navController.previousBackStackEntry
                 ?.savedStateHandle
-                ?.get<Repository>("repository")
+                ?.get<RepositoryNavArgs>("navArgs")
+
             RepositoryDetailScreen(
-                repository = repository ?: Repository(
-                    name = "Dummy Repo",
-                    description = "This is dummy repo!",
-                    forksCount = 42,
-                    updatedAt = "2024-01-15T10:30:00Z",
-                    stargazersCount = 123,
+                repositoryNavArgs = navArgs ?: RepositoryNavArgs(
+                    repository = Repository(
+                        name = "Hello-World",
+                        description = "This your first repo!",
+                        forksCount = 42,
+                        updatedAt = "2024-01-15T10:30:00Z",
+                        stargazersCount = 123,
+                    ),
+                    totalForks = 5000
                 ),
                 onDismiss = { navController.popBackStack() },
-                enableAnimation = false
+                enableAnimation = false,
             )
         }
     }

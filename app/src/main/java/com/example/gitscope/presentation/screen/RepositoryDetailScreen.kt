@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.gitscope.data.model.Repository
 import com.example.gitscope.presentation.components.DetailRow
+import com.example.gitscope.presentation.navigation.RepositoryNavArgs
 import com.example.gitscope.presentation.ui.theme.GitScopeTheme
 import com.example.gitscope.presentation.util.extensions.formatDate
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -45,8 +46,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
 @Composable
 fun RepositoryDetailScreen(
-    repository: Repository,
-    totalForks: Int = 0,
+    repositoryNavArgs: RepositoryNavArgs,
     onDismiss: () -> Unit,
     enableAnimation: Boolean = true
 ) {
@@ -104,12 +104,12 @@ fun RepositoryDetailScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = repository.name,
+                    text = repositoryNavArgs.repository.name,
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = repository.description ?: "No description available",
+                    text = repositoryNavArgs.repository.description ?: "No description available",
                     style = MaterialTheme.typography.bodyMedium
                 )
 
@@ -117,36 +117,36 @@ fun RepositoryDetailScreen(
 
                 DetailRow(
                     label = "Forks",
-                    value = repository.forksCount.toString()
+                    value = repositoryNavArgs.repository.forksCount.toString()
                 )
                 DetailRow(
                     label = "Stars",
-                    value = repository.stargazersCount.toString()
+                    value = repositoryNavArgs.repository.stargazersCount.toString()
                 )
                 DetailRow(
                     label = "Updated",
-                    value = repository.updatedAt.formatDate()
+                    value = repositoryNavArgs.repository.updatedAt.formatDate()
                 )
 
                 HorizontalDivider()
 
-                val totalForksColor = if (totalForks > 5000) {
+                val totalForksColor = if (repositoryNavArgs.totalForks > 5000) {
                     Color(0xFFFFCC00)
                 } else {
                     MaterialTheme.colorScheme.onSurface
                 }
 
-                val totalForksText = if (totalForks > 5000) {
-                    "⭐ Total Forks: $totalForks"
+                val totalForksText = if (repositoryNavArgs.totalForks > 5000) {
+                    "⭐ Total Forks: ${repositoryNavArgs.totalForks}"
                 } else {
-                    "Total Forks: $totalForks"
+                    "Total Forks: ${repositoryNavArgs.totalForks}"
                 }
 
                 Text(
                     text = totalForksText,
                     style = MaterialTheme.typography.titleMedium,
                     color = totalForksColor,
-                    fontWeight = if (totalForks > 5000) FontWeight.Bold else FontWeight.Normal
+                    fontWeight = if (repositoryNavArgs.totalForks > 5000) FontWeight.Bold else FontWeight.Normal
                 )
             }
         }
@@ -159,6 +159,7 @@ fun RepositoryDetailScreen(
 fun RepositoryDetailScreenThemePreview() {
     GitScopeTheme {
         RepositoryDetailScreen(
+            repositoryNavArgs = RepositoryNavArgs(
             repository = Repository(
                 name = "Hello-World",
                 description = "This your first repo!",
@@ -166,7 +167,8 @@ fun RepositoryDetailScreenThemePreview() {
                 updatedAt = "2024-01-15T10:30:00Z",
                 stargazersCount = 123,
             ),
-            totalForks = 5000,
+            totalForks = 5000
+            ),
             onDismiss = {},
             enableAnimation = false
         )
@@ -178,14 +180,16 @@ fun RepositoryDetailScreenThemePreview() {
 fun RepositoryDetailScreenPopularPreview() {
     GitScopeTheme {
         RepositoryDetailScreen(
-            repository = Repository(
-                name = "react",
-                description = "The library for web and native user interfaces",
-                forksCount = 45623,
-                updatedAt = "2024-09-21T08:15:00Z",
-                stargazersCount = 228000,
+            repositoryNavArgs = RepositoryNavArgs(
+                repository = Repository(
+                    name = "Hello-World",
+                    description = "This your first repo!",
+                    forksCount = 42,
+                    updatedAt = "2024-01-15T10:30:00Z",
+                    stargazersCount = 123,
+                ),
+                totalForks = 5000
             ),
-            totalForks = 125000,
             onDismiss = {},
             enableAnimation = false
         )
