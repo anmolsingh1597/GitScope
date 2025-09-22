@@ -86,25 +86,35 @@ UI State ← StateFlow ← Domain Models ← Data Models
 The application includes comprehensive testing coverage across multiple layers:
 
 ### Test Approach
-- **Unit Tests** (Domain Layer)
-   - Use cases: `GetUserUseCase`, `GetUserRepositoriesUseCase`, `CalculateTotalForksUseCase`, `GetUserWithRepositoriesUseCase`
+- **Unit Tests**
+   - Use cases: `GetUserUseCase`, `GetUserRepositoriesUseCase`, `CalculateTotalForksUseCase`, `GetUserWithRepositoriesUseCase`,
+   - Repository: `GitHubScopeRepository`
    - Business logic validation
-   - Fast, isolated testing
-- **Integration Tests** (Data Layer)
-   - Repository implementations
-   - API service interactions
-   - Database operations
+- **Integration Tests**
+   - ViewModel implementations: `UserViewModel`
+   - Concurrent operations
+   - Proper state management
 - **UI Tests** (Presentation Layer)
    - Compose UI behavior
-   - User interactions
-   - Screen navigation
+   - Render Previews
+   - Screen: `GitHubUserScreen`
 
 ### What Is Covered
 - **Covered:**
-  - Input validation (empty userId)
-  - Success scenarios (valid user data)
-  - Data transformation (trimming whitespace)
-  - Business logic in use cases
+  - Input validation 
+    - Empty userId
+  - Success scenarios 
+    - Valid user response with proper data mapping
+  - Error Handling 
+    - Invalid user id
+    - Network error
+    - Invalid State
+  - Edge Cases
+    - Null user id
+    - Empty repo or Single repo return correct total
+    - Concurrent Searches
+  - Data transformation 
+    - Trimming whitespace
 
 ### Local Test Execution
 To enable automatic test execution on every build, uncomment the following configuration in `build.gradle` (app level):
