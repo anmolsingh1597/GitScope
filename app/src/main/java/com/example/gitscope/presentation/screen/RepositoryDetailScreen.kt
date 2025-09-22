@@ -35,9 +35,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.gitscope.data.model.Repository
-import com.example.gitscope.presentation.util.extensions.formatDate
 import com.example.gitscope.presentation.components.DetailRow
 import com.example.gitscope.presentation.ui.theme.GitScopeTheme
+import com.example.gitscope.presentation.util.extensions.formatDate
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -46,7 +46,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun RepositoryDetailScreen(
     repository: Repository,
-    totalForks: Int,
+    totalForks: Int = 0,
     onDismiss: () -> Unit,
     enableAnimation: Boolean = true
 ) {

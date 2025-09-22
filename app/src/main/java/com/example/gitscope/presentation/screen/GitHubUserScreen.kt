@@ -1,8 +1,14 @@
 package com.example.gitscope.presentation.screen
 
 import android.content.res.Configuration
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,9 +28,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -45,8 +48,8 @@ import com.example.gitscope.presentation.viewmodel.UserViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GitHubUserScreen(
-    modifier: Modifier = Modifier,
-    viewModel: UserViewModel = hiltViewModel()
+    viewModel: UserViewModel = hiltViewModel(),
+    onNavigateToRepositoryDetail: (Repository) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -62,14 +65,14 @@ fun GitHubUserScreen(
         error = uiState.error,
         clearError = viewModel::clearError,
         clearSession = viewModel::clearUiState,
-        recentSearches = uiState.recentSearches
+        recentSearches = uiState.recentSearches,
+        onNavigateToRepositoryDetail = onNavigateToRepositoryDetail
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GitHubUserScreen(
-    modifier: Modifier = Modifier,
     title: String,
     searchQuery: String,
     updateSearchQuery: (String) -> Unit = {},
@@ -81,19 +84,10 @@ fun GitHubUserScreen(
     error: String?,
     clearError: () -> Unit = {},
     clearSession: () -> Unit = {},
-    recentSearches: List<String> = emptyList()
+    recentSearches: List<String> = emptyList(),
+    onNavigateToRepositoryDetail: (Repository) -> Unit = {}
 ) {
-    var showRepositoryDetails by remember { mutableStateOf<Repository?>(null) }
 
-    showRepositoryDetails?.let { repository ->
-        RepositoryDetailScreen(
-            repository = repository,
-            totalForks = totalForks,
-            onDismiss = { showRepositoryDetails = null }
-        )
-
-        return
-    }
 
     Scaffold(
         topBar = {
@@ -197,7 +191,7 @@ fun GitHubUserScreen(
                             RepositoriesSection(
                                 repositories = repositories,
                                 onRepositoryClick = { repository ->
-                                    showRepositoryDetails = repository
+                                   onNavigateToRepositoryDetail(repository)
                                 }
                             )
                         }
